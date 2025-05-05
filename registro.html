@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Registro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="registro.html">Registro</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <h2>Formulario de Registro</h2>
+  <form id="formularioRegistro">
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" id="nombre" required>
+
+    <label for="correo">Correo electrónico:</label>
+    <input type="email" name="correo" id="correo" required>
+
+    <label for="mensaje">Mensaje:</label>
+    <textarea name="mensaje" id="mensaje" required></textarea>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <p id="confirmacion" style="color: rgb(255, 0, 0); display: none;">
+    ¡Formulario enviado con éxito!
+  </p>
+</main>
+
+<script>
+  const formulario = document.getElementById("formularioRegistro");
+  const confirmacion = document.getElementById("confirmacion");
+
+  formulario.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const datos = new FormData(formulario);
+
+    fetch("https://formspree.io/f/meoggaek", {
+      method: "POST",
+      body: datos,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        formulario.reset();
+        confirmacion.style.display = "block";
+      } else {
+        alert("Ocurrió un error al enviar el formulario.");
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("Ocurrió un error al enviar el formulario.");
+    });
+  });
+</script>
+
+</body>
+</html>
